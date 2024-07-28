@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Sangsoo Park">
+  <title>Bear-Ninja-Hunter</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <p id="finalMessage"></p>
+
+  <script>
+
+    // The next line of code will generate a variable determining if the game will happen at all. This always be a yes at the start but can be changed later if the user doesn't want to play.
+    let playAgain = 'y';
+
+    // This initializes a string variable representing a message that will be displayed to the user, on the web page, at the end of the game.
+    let totalMessage = '';
+
+    // This initializes a boolean variable that states whether the game has to end.
+    let cancel = false;
+
+    // This initializes a boolean variable that states whether the game ended due to a invalid input.
+    let invalidInput = false;
+    
+    // This welcomes the user and prompts them to enter their name. 
+    let uname = prompt('Welcome to Bear Hunter Ninja! Please enter your name to get started:');
+    
+    // This while loop will continue to run until the user changes the playAgain variable to 'n', indicating they don't want to play another round of the game. Will always run at least once.
+    while(playAgain === 'y'){
+
+      //Generates a random number between 0 and 2.
+      let computerChoiceIndex = Math.floor(Math.random()*3);
+      
+      // Initalizes a array of three role choices possible in the game. 
+      const choices = ['Bear', 'Ninja', 'Hunter'];
+
+      // Sets the computer's role based on a randomly generated number.
+      let computerRole = choices[computerChoiceIndex];
+
+      // The creates a string variable representing a greeting to user with the format "Hi (User Name)! Lets play!".
+      let amessage = `Hi ${uname}! Lets play!!`;
+
+      // If the user inputed no name or pressed the cancel button, the game will end.
+      if(uname === null){
+
+          cancel = true;
+
+          break;
+        
+      }
+    
+      // The code below displays a greeting to the user using the previous string variable(amessage).
+      alert(amessage);
+      // The code below prompts the user to choose either Bear, Ninja, or Hunter, saving their answer as a variable.
+      let role = prompt('Who are you: Bear, Ninja, or Hunter?');
+      // The code below breaks out of the loop and cancels the game if the user presses cancel, inputs nothing, or inputs an invalid input.
+      if(role === null){
+
+          cancel = true;
+
+          break;
+
+      }
+      else if(!choices.includes(role.at(0).toUpperCase() + role.substring(1, role.length))){
+
+        cancel = true;
+
+        invalidInput = true;
+
+        break;
+        
+      }
+
+      // The code below sets the user's chosen role to lowercase for standardization purposes
+      role = role.toLowerCase();
+      
+      // The code below creates a string variable representing a message to the user with the format "(User Name), You picked (User Choice)!".
+      let finalMessageLine1 = uname.concat(', You picked ', role.at(0).toUpperCase(), role.substring(1, role.length), '!');
+
+      // The code below creates a message to the user, telling them what the computer chose, with the format "The computer picked (Computer Choice)!".
+      let finalMessageLine2 = `The computer picked ${computerRole}!`;
+
+      // The code below creates string variable representing a message to the user indicating whether the user won, lost, or tied with the Computer.
+      let winOrLose = '';
+
+      // Determines the winner of the game based on the user's and computers' choices and the rules of the game (Bear beats Ninja, Ninja beats Hunter, and Hunter beats Bear).
+      switch(computerRole){
+
+        case 'Bear':
+          if(role === 'bear'){
+            winOrLose = 'Tie!';
+          }
+          else if(role === 'ninja'){
+            winOrLose = 'You Lose!';
+          }
+          else if(role === 'hunter'){
+            winOrLose = 'You Win!';
+          }
+          break;
+        case 'Ninja':
+          if(role === 'bear'){
+            winOrLose = 'You Win!';
+          }
+          else if(role === 'ninja'){
+            winOrLose = 'Tie!';
+          }
+          else if(role === 'hunter'){
+            winOrLose = 'You Lose!';
+          }
+          break;
+        case 'Hunter':
+          if(role === 'bear'){
+            winOrLose = 'You Lost!';
+          }
+          else if(role === 'ninja'){
+            winOrLose = 'You Win!';
+          }
+          else if(role === 'hunter'){
+            winOrLose = 'Tie!';
+          }
+        
+      }
+
+      // The code below creates a multiple line string variable representing the final message to the user. This will be printed out to the web page.
+      totalMessage += (finalMessageLine1 + '<br><br>' + finalMessageLine2 + '<br><br>' + winOrLose + '<br><br>');
+
+      // The code below creates a multiple line string variable representing the final message to the user. This will be printed out to the console.
+      let messageConsole = (finalMessageLine1 + '\n\n' + finalMessageLine2 + '\n\n' + winOrLose + '\n\n');
+      
+      setTimeout(() => { console.log("3 seconds") }, 0);
+      setTimeout(() => { console.log("2 seconds") }, 1000);
+      setTimeout(() => { console.log("1 second") }, 2000);
+      setTimeout(() => { console.log("0 seconds") }, 3000);
+      setTimeout(() => {
+          // The 3 lines of code below displays to the web page the previous 3 string variables in three different lines. 
+          document.getElementById("finalMessage").innerHTML = totalMessage;
+          
+          // The 3 lines of code below displays \]string variables in three different lines. 
+          console.log(messageConsole); 
+      }, 4000);
+      // The 3 lines of code below displays to the console the previous 3 string variables in three different lines. 
+
+      // Prompts the user if they would like to play again.
+      playAgain = prompt('Would you like to play again? (type y/n)');
+      // The code below breaks out of the loop and cancels the game if the user presses cancel, inputs nothing, or inputs an invalid input.
+      if(playAgain === null){
+
+        cancel = true;
+
+        break;
+        
+      }
+      else if(playAgain != 'y' && playAgain != 'n'){
+
+        cancel = true;
+
+        invalidInput = true;
+
+        break;
+
+      }
+
+    }
+
+    // The code below displays a message to the user indicating the game has ended, will tell them to press f5 if they want to play again. If the game didn't end due to player error, a thanks for playing message will be displayed on both the web page and the console.
+    if(cancel){
+
+      if(invalidInput){
+
+        finalMessage += 'Invalid Entry<br>';
+
+        console.log('Invalid Entry\n');
+        
+      }
+
+      finalMessage += 'Please Press F5 to Play Again.<br>';
+
+      console.log('Please Press F5 to Play Again.');
+      
+    }
+
+    else{
+
+      finalMessage += 'Thanks for playing!';
+
+      console.log('Thanks for playing!');
+      
+    }
+    
+  </script>
+</body>
+
+</html>
